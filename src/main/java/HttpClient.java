@@ -19,7 +19,7 @@ public class HttpClient {
             .setSocketTimeout(5000)
             .build();
     //Building Http client
-    private  static final CloseableHttpClient client = HttpClientBuilder.create()
+    private static final CloseableHttpClient client = HttpClientBuilder.create()
             .setDefaultRequestConfig(REQUEST_CONFIG)
             .build();
 
@@ -79,6 +79,7 @@ public class HttpClient {
         while (scanner.hasNext()) {
             stringBuilder.append(scanner.nextLine()).append("\n");
         }
+        request.releaseConnection();
         return stringBuilder.toString();
     }
 
@@ -92,19 +93,19 @@ public class HttpClient {
     }
 
     //Get user last comment
-    public static String getUserLastComment(int id){
+    public static String getUserLastComment(int id) {
         //Дополните программу методом, который будет выводить все комментарии к последнему посту определенного пользователя и записывать их в файл.
         //https://jsonplaceholder.typicode.com/users/1/posts Последним будем считать пост с наибольшим id.
         //https://jsonplaceholder.typicode.com/posts/10/comments
         //Файл должен называться "user-X-post-Y-comments.json", где Х - номер пользователя, Y - номер поста.
-        return "String";
+        return "String" + id;
     }
 
     //Get user open task(to do list)
-    public static String getUserOpenTodos(){
+    public static String getUserOpenTodos(int id) {
         //Дополните программу методом, который будет выводить все открытые задачи для пользователя Х.
         //https://jsonplaceholder.typicode.com/users/1/todos.
         //Открытыми считаются все задачи, у которых completed = false.*/
-        return "String";
+        return "String" + id;
     }
 }

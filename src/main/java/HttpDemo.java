@@ -40,11 +40,10 @@ public class HttpDemo {
     private static final String USERS_JSON_PATH = RESOURSE_PATH.concat("users.json");//"./src/main/resources/users.json";
 
     public static void main(String[] args) {
-        doTask1();
+        doHttpWork();
     }
 
-    public static void doTask1() {
-
+    public static void doHttpWork() {
         try {
             //Create new user
             System.out.println(HttpClient.postRequest(URI.concat(USERS_URN), USERS_JSON_PATH));
@@ -63,7 +62,6 @@ public class HttpDemo {
 
             //get user info by username="Samantha"
             System.out.println(HttpClient.getUserByUserName(URI, USERS_URN, "Samantha"));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
