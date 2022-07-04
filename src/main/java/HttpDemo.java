@@ -31,8 +31,6 @@
     https://jsonplaceholder.typicode.com/users/1/todos.
     Открытыми считаются все задачи, у которых completed = false.
 */
-
-
 import java.io.*;
 
 public class HttpDemo {
@@ -43,13 +41,14 @@ public class HttpDemo {
 
     public static void main(String[] args) {
         doTask1();
-
     }
+
     public static void doTask1() {
 
         try {
             //Create new user
             System.out.println(HttpClient.postRequest(URI.concat(USERS_URN), USERS_JSON_PATH));
+
             //Update user id=3
             System.out.println(HttpClient.putRequest(URI.concat(USERS_URN).concat("3"), USERS_JSON_PATH));
 
@@ -64,11 +63,10 @@ public class HttpDemo {
 
             //get user info by username="Samantha"
             System.out.println(HttpClient.getUserByUserName(URI, USERS_URN, "Samantha"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
 }

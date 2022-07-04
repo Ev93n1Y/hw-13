@@ -1,23 +1,23 @@
 {
-  "id": 8,
+  "id": 0,
   "name": "Yevhen Pomazan",
   "username": "Yev93n",
   "email": "rivnosc@gmail.com",
   "address": {
-    "street": "Kattie Turnpike",
-    "suite": "Suite 198",
-    "city": "Lebsackbury",
-    "zipcode": "31428-2261",
+    "street": "Odeska str",
+    "suite": "Suite 60",
+    "city": "Cherkasy",
+    "zipcode": "18000",
     "geo": {
-      "lat": "-38.2386",
-      "lng": "57.2232"
+      "lat": "49.4285",
+      "lng": "32.0621"
     }
   },
-  "phone": "024-648-3804",
-  "website": "ambrose.net",
+  "phone": "+380(63)377-53-54",
+  "website": "saita.net",
   "company": {
-    "name": "Hoeger LLC",
-    "catchPhrase": "Centralized empowering task-force",
-    "bs": "target end-to-end models"
+    "name": "Company LLC",
+    "catchPhrase": "some catch phrase",
+    "bs": "bs"
   }
 }
