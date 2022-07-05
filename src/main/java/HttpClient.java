@@ -19,16 +19,35 @@ public class HttpClient {
             .setSocketTimeout(5000)
             .build();
     //Building Http client
-    private static final CloseableHttpClient client = HttpClientBuilder.create()
+    private static final CloseableHttpClient CLIENT = HttpClientBuilder.create()
             .setDefaultRequestConfig(REQUEST_CONFIG)
             .build();
+
+    private static String entityScanner(HttpEntity entity) throws IOException {
+        Scanner scanner = new Scanner(entity.getContent());
+        StringBuilder stringBuilder = new StringBuilder();
+        while (scanner.hasNext()) {
+            stringBuilder.append(scanner.nextLine()).append("\n");
+        }
+        return stringBuilder.toString();
+    }
+
+    private static void setContentTypeJSON(HttpRequestBase requestBase) {
+        requestBase.setHeader("Accept", "application/json");
+        requestBase.setHeader("Content-type", "application/json");
+    }
+
+    //Request entity, put request type to parameter(HttpGet/HttpPost....)
+    private static HttpEntity requestEntity(HttpRequestBase requestBase) throws IOException {
+        CloseableHttpResponse response = CLIENT.execute(requestBase);
+        System.out.println(response.getStatusLine() + " *** Request Type: " + requestBase.getMethod());
+        return response.getEntity();
+    }
 
     //Send GET
     public static String getRequest(String URI) throws IOException {
         HttpGet request = new HttpGet(URI);//GET request
-        CloseableHttpResponse response = client.execute(request);
-        System.out.println(response.getStatusLine() + " *** Request Type: " + request.getMethod());
-        HttpEntity entity = response.getEntity();
+        HttpEntity entity = requestEntity(request);
         return EntityUtils.toString(entity);
     }
 
@@ -51,61 +70,28 @@ public class HttpClient {
     //Send POST
     public static String postRequest(String URI, String jsonPath) throws IOException {
         HttpPost request = new HttpPost(URI);//POST request
-        request.setHeader("Accept", "application/json");
-        request.setHeader("Content-type", "application/json");
-        StringEntity entity = new StringEntity(Files.readString(Paths.get(jsonPath)));
-        request.setEntity(entity);
-        CloseableHttpResponse response = client.execute(request);
-        System.out.println(response.getStatusLine() + " *** Request Type: " + request.getMethod());
-        Scanner scanner = new Scanner(response.getEntity().getContent());
-        StringBuilder stringBuilder = new StringBuilder();
-        while (scanner.hasNext()) {
-            stringBuilder.append(scanner.nextLine()).append("\n");
-        }
-        return stringBuilder.toString();
+        setContentTypeJSON(request);
+        StringEntity stringEntity = new StringEntity(Files.readString(Paths.get(jsonPath)));
+        request.setEntity(stringEntity);
+        HttpEntity httpEntity = requestEntity(request);
+        return entityScanner(httpEntity);
     }
 
     //Send PUT
     public static String putRequest(String URI, String jsonPath) throws IOException {
         HttpPut request = new HttpPut(URI);//PUT request
         StringEntity entity = new StringEntity(Files.readString(Paths.get(jsonPath)));
-        request.setHeader("Accept", "application/json");
-        request.setHeader("Content-type", "application/json");
+        setContentTypeJSON(request);
         request.setEntity(entity);
-        CloseableHttpResponse response = client.execute(request);
-        System.out.println(response.getStatusLine() + " *** Request Type: " + request.getMethod());
-        Scanner scanner = new Scanner(response.getEntity().getContent());
-        StringBuilder stringBuilder = new StringBuilder();
-        while (scanner.hasNext()) {
-            stringBuilder.append(scanner.nextLine()).append("\n");
-        }
+        HttpEntity httpEntity = requestEntity(request);
         request.releaseConnection();
-        return stringBuilder.toString();
+        return entityScanner(httpEntity);
     }
 
     //Send DELETE
     public static boolean deleteRequest(String URI) throws IOException {
         HttpDelete request = new HttpDelete(URI);//DELETE request
-        CloseableHttpResponse response = client.execute(request);
-        int status = response.getStatusLine().getStatusCode();
-        System.out.println(response.getStatusLine() + " *** Request Type: " + request.getMethod());
-        return status >= 200 && status < 300;
-    }
-
-    //Get user last comment
-    public static String getUserLastComment(int id) {
-        //Дополните программу методом, который будет выводить все комментарии к последнему посту определенного пользователя и записывать их в файл.
-        //https://jsonplaceholder.typicode.com/users/1/posts Последним будем считать пост с наибольшим id.
-        //https://jsonplaceholder.typicode.com/posts/10/comments
-        //Файл должен называться "user-X-post-Y-comments.json", где Х - номер пользователя, Y - номер поста.
-        return "String" + id;
-    }
-
-    //Get user open task(to do list)
-    public static String getUserOpenTodos(int id) {
-        //Дополните программу методом, который будет выводить все открытые задачи для пользователя Х.
-        //https://jsonplaceholder.typicode.com/users/1/todos.
-        //Открытыми считаются все задачи, у которых completed = false.*/
-        return "String" + id;
+        HttpEntity httpEntity = requestEntity(request);
+        return httpEntity.getContent().available() == 2;//2 because "{}" left in stream
     }
 }

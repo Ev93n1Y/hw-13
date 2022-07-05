@@ -1,0 +1,23 @@
+{
+  "id": 0,
+  "name": "Yevhen Pomazan",
+  "username": "Yev93n",
+  "email": "rivnosc@gmail.com",
+  "address": {
+    "street": "Odeska str",
+    "suite": "Suite 60",
+    "city": "Cherkasy",
+    "zipcode": "18000",
+    "geo": {
+      "lat": "49.4285",
+      "lng": "32.0621"
+    }
+  },
+  "phone": "+380(63)377-53-54",
+  "website": "saita.net",
+  "company": {
+    "name": "Company LLC",
+    "catchPhrase": "some catch phrase",
+    "bs": "bs"
+  }
+}
